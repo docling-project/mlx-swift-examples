@@ -123,6 +123,7 @@ public struct Idefics3Configuration: Codable, Sendable {
 private class Idefics3MLP: Module, UnaryLayer {
     @ModuleInfo var proj: Linear
     init(_ config: Idefics3Configuration) {
+        print("Idefics3MLP init!")
         let inputSize = config.visionConfig.hiddenSize * (config.scaleFactor * config.scaleFactor)
         let outputSize = config.textConfig.hiddenSize
         self._proj.wrappedValue = Linear(inputSize, outputSize, bias: false)
@@ -803,16 +804,17 @@ public struct Idefics3ProcessorConfiguration: Codable, Sendable {
 public class Idefics3Processor: UserInputProcessor {
     private let config: Idefics3ProcessorConfiguration
     private let tokenizer: any Tokenizer
-    private let fixedImageSize = 384
+    private let fixedImageSize = 512  // 384
 
     // From the Python code and default config, we know image_token_id is usually 49153.
     // Hardcode this since we can't pass it in or rely on it from the processor config.
-    private let imageTokenId = 49153
+    private let imageTokenId = 49190  // 49153
 
     public init(
         _ config: Idefics3ProcessorConfiguration,
         tokenizer: any Tokenizer
     ) {
+        print("Idefics3Processor init!")
         self.config = config
         self.tokenizer = tokenizer
     }
