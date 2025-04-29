@@ -227,6 +227,10 @@ public struct UserInput: Sendable {
         additionalContext: [String: Any]? = nil
     ) {
         self.prompt = .messages(messages)
+        print("UserInput init") //THIS ONE!
+        print("prompt:")
+        print(self.prompt)
+        self.images = images
         self.tools = tools
         self.additionalContext = additionalContext
     }
@@ -259,7 +263,6 @@ public struct UserInput: Sendable {
         additionalContext: [String: Any]? = nil
     ) {
         self.prompt = .chat(chat)
-
         // note: prompt.didSet is not triggered in init
         self.images = chat.reduce(into: []) { result, message in
             result.append(contentsOf: message.images)
