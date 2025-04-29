@@ -1,3 +1,6 @@
+# NOTE: Docling-Project
+This is a fork of [mlx-swift-examples](https://github.com/ml-explore/mlx-swift-examples) where Docling team experiments with integration of SmolDocling model.
+
 # Documentation
 
 Developers can use these examples in their own programs -- just import the swift package!
