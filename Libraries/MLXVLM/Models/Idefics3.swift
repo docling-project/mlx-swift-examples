@@ -123,7 +123,6 @@ public struct Idefics3Configuration: Codable, Sendable {
 private class Idefics3MLP: Module, UnaryLayer {
     @ModuleInfo var proj: Linear
     init(_ config: Idefics3Configuration) {
-        print("Idefics3MLP init!")
         let inputSize = config.visionConfig.hiddenSize * (config.scaleFactor * config.scaleFactor)
         let outputSize = config.textConfig.hiddenSize
         self._proj.wrappedValue = Linear(inputSize, outputSize, bias: false)
@@ -814,7 +813,6 @@ public class Idefics3Processor: UserInputProcessor {
         _ config: Idefics3ProcessorConfiguration,
         tokenizer: any Tokenizer
     ) {
-        print("Idefics3Processor init!")
         self.config = config
         self.tokenizer = tokenizer
     }

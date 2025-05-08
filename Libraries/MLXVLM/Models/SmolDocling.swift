@@ -82,7 +82,6 @@ public class SmolDoclingProcessor: UserInputProcessor {
         _ config: SmolDoclingProcessorConfiguration,
         tokenizer: any Tokenizer
     ) {
-        print("SmolDoclingProcessor Init!")
         self.config = config
         self.tokenizer = tokenizer
     }
@@ -93,7 +92,6 @@ public class SmolDoclingProcessor: UserInputProcessor {
     ) -> String {
         /// Prompt with expanded image tokens for when the image is split into patches.
         /// This just transliterates this: https://github.com/huggingface/transformers/blob/6a1ab634b6886b6560b0502e7a305c8cd881732e/src/transformers/models/idefics3/processing_idefics3.py#L44
-        print("Inside SmolDocling getImagePromptString...")
         var textSplitImages = ""
         for h in 0 ..< rows {
             for w in 0 ..< cols {
@@ -183,24 +181,16 @@ public class SmolDoclingProcessor: UserInputProcessor {
     }
 
     public func prepare(input: UserInput) async throws -> LMInput {
-        print("SmolDoclingProcessor prepare!")
         let messages = Qwen2VLMessageGenerator().generate(from: input)  // TODO: Create SmolVLM2MessageGenerator
-        // let messages = input.prompt.asMessages()
-        // let messages = input.prompt
-        print("=============== input ==============")
-        print(input)
-        print("=============== messages ==============")
-        print(messages)
 
         if input.images.isEmpty {
-            print("SmolDocling: NO IMAGE !!!")
+            print("SmolDocling: NO IMAGE !")
             // No image scenario
             let promptTokens = try tokenizer.applyChatTemplate(messages: messages)
             let tokensArray = MLXArray(promptTokens).expandedDimensions(axis: 0)
             let mask = ones(like: tokensArray)
             return LMInput(text: .init(tokens: tokensArray, mask: mask), image: nil)
         } else if input.images.count > 0 && input.videos.isEmpty {
-            print("SmolDocling: Single image scenario")
             // Single image scenario
             guard input.images.count == 1 else {
                 throw VLMError.singleImageAllowed
@@ -241,10 +231,6 @@ public class SmolDoclingProcessor: UserInputProcessor {
             let splitPrompt = decoded.split(by: imageToken, options: .literal)
             let prompt = splitPrompt.joined(separator: imagePromptString)
             let finalPromptTokens = try tokenizer.encode(text: prompt)
-
-            print("prompt:")
-            print(prompt)
-
             let promptArray = MLXArray(finalPromptTokens).expandedDimensions(axis: 0)
             let mask = ones(like: promptArray)
 
@@ -253,7 +239,7 @@ public class SmolDoclingProcessor: UserInputProcessor {
                 image: .init(pixels: pixels)
             )
         } else {
-            print("SmolDocling: Single video scenario")
+            print("SmolDocling: Single video scenario, not supported")
             let promptTokens = try tokenizer.applyChatTemplate(messages: messages)
             let tokensArray = MLXArray(promptTokens).expandedDimensions(axis: 0)
             let mask = ones(like: tokensArray)
