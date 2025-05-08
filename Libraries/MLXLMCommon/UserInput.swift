@@ -227,10 +227,7 @@ public struct UserInput: Sendable {
         additionalContext: [String: Any]? = nil
     ) {
         self.prompt = .messages(messages)
-        print("UserInput init") //THIS ONE!
-        print("prompt:")
-        print(self.prompt)
-        self.images = images
+        self.images = images  // To provide image input for SmolDocling
         self.tools = tools
         self.additionalContext = additionalContext
     }

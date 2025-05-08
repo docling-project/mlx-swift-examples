@@ -85,7 +85,6 @@ public class VLMTypeRegistry: ModelTypeRegistry, @unchecked Sendable {
             "qwen2_vl": create(Qwen2VLConfiguration.self, Qwen2VL.init),
             "qwen2_5_vl": create(Qwen25VLConfiguration.self, Qwen25VL.init),
             "idefics3": create(Idefics3Configuration.self, Idefics3.init),
-            // "idefics3": create(SmolDoclingConfiguration.self, SmolDocling.init),  //!!!To force SmolDocling
             "smolvlm": create(SmolVLM2Configuration.self, SmolVLM2.init),
             "smoldocling": create(SmolDoclingConfiguration.self, SmolDocling.init),
         ]

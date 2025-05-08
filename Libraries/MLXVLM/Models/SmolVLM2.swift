@@ -102,7 +102,6 @@ public class SmolVLMProcessor: UserInputProcessor {
         _ config: SmolVLMProcessorConfiguration,
         tokenizer: any Tokenizer
     ) {
-        print("SmolVLM2 init!")
         self.config = config
         self.tokenizer = tokenizer
     }
@@ -222,7 +221,6 @@ public class SmolVLMProcessor: UserInputProcessor {
     }
 
     public func prepare(input: UserInput) async throws -> LMInput {
-        print("SmolVLM2 prepare!")
         let messages = Qwen2VLMessageGenerator().generate(from: input)  // TODO: Create SmolVLM2MessageGenerator
 
         if input.images.isEmpty && input.videos.isEmpty {
